@@ -1,8 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:proyecto_uno/models/balance.dart';
 import 'package:http/http.dart' as http;
 import 'package:proyecto_uno/screens/transaction.dart';
@@ -52,10 +49,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> addEntry() async{
 
-    Navigator.push(
+    bool updated = await Navigator.push<bool>(
       context,
       MaterialPageRoute(builder: (context) => TransactionsScreen()),
     );
+
+    if(updated){
+      getBalances();
+    }
 
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:proyecto_uno/models/clients.dart';
+import 'package:http/http.dart' as http;
 
 class TransactionsScreen extends StatefulWidget {
   @override
@@ -11,10 +12,17 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   final formKey = GlobalKey<FormState>();
   bool _autovalidate = false;
 
-  Future<void> saveEntry() async {
+  Future<void> updateFiles() async {
+    print('should create file');
+
+    String url = 'http://localhost:8080/shared/update.php';
+    await http.post(url, body: {'txt': 'este es el texto'});
+  }
+
+  void saveEntry() async {
     if(formKey.currentState.validate()){
       formKey.currentState.save();
-      // await signIn();
+      await updateFiles();
     } else {
       setState(() {
         this._autovalidate = true;
