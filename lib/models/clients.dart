@@ -2,9 +2,8 @@ class Client {
   final int id;
   final String name;
   final String lastName;
-  final double balance;
 
-  const Client({this.id, this.name, this.lastName, this.balance});
+  const Client({this.id, this.name, this.lastName});
 }
 
 

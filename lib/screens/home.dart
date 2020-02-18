@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:proyecto_uno/models/balance.dart';
 import 'package:http/http.dart' as http;
+import 'package:proyecto_uno/screens/transaction.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -47,6 +48,14 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     setState(() {});
+  }
+
+  Future<void> addEntry() async{
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TransactionsScreen()),
+    );
 
   }
 
@@ -58,24 +67,24 @@ class _MyHomePageState extends State<MyHomePage> {
     final theme = Theme.of(context).textTheme;
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: (){},
-        icon: Icon(Icons.add),
-        label: Text('Registrar'),
+      appBar: AppBar(
+        centerTitle: false,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 56.0),
+          child: Text('Saldos'),
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(right: 48.0, bottom: 36),
+        child: FloatingActionButton.extended(
+          onPressed: addEntry,
+          icon: Icon(Icons.add),
+          label: Text('Registrar'),
+        ),
       ),
       body: ListView(
         padding: EdgeInsets.all(64.0),
         children: <Widget>[
-
-
-          Padding(
-            padding: const EdgeInsets.only(bottom: 24.0),
-            child: Text(
-              'Saldos',
-              style: theme.headline2
-            ),
-          ),
-
 
 
           DataTable(
