@@ -45,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
           balances.add(balance);
         }
 
+        balances.sort((a, b) => a.id.compareTo(b.id));
       } else {
         print('no file');
       }
@@ -163,9 +164,11 @@ class _MyHomePageState extends State<MyHomePage> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal, 
               child: DataTable(
-                // sortColumnIndex: 0,
+   
                 columns: [
-                  DataColumn(label: Text('ID')),
+                  DataColumn(
+                    label: Text('ID'),
+                  ),
                   DataColumn(label: Text('Nombre')),
                   DataColumn(label: Text('Apellido')),
                   DataColumn(label: Text('Actualizado')),

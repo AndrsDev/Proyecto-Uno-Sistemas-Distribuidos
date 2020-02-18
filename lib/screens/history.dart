@@ -72,7 +72,7 @@ class _HistoryPageState extends State<HistoryPage> {
               child: DataTable(
                 // sortColumnIndex: 0,
                 columns: [
-                  DataColumn(label: Text('ID')),
+                  DataColumn(label: Text('ID Registro')),
                   DataColumn(label: Text('Nombre')),
                   DataColumn(label: Text('Apellido')),
                   DataColumn(label: Text('Tipo')),
