@@ -12,17 +12,34 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   final formKey = GlobalKey<FormState>();
   bool _autovalidate = false;
 
-  Future<void> updateFiles() async {
-    print('should create file');
+  Client _client;
+  String _type;
+  String _total;
+  
 
+  Future<void> updateFiles() async {
     String url = 'http://localhost:8080/shared/update.php';
-    await http.post(url, body: {'txt': 'este es el texto'});
+    dynamic body = {
+      'id': _client.id,
+      'name': _client.name,
+      'last_name': _client.lastName,
+      'type': _type,
+      'date': DateTime.now().toIso8601String(),
+      'total': _total,
+    };
+    try{
+      await http.post(url, body: body);
+      Navigator.of(context).pop(true);
+    } catch (e) {
+      print(e);
+    }
+
   }
 
   void saveEntry() async {
     if(formKey.currentState.validate()){
       formKey.currentState.save();
-      await updateFiles();
+      updateFiles();
     } else {
       setState(() {
         this._autovalidate = true;
@@ -34,6 +51,14 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(right: 48.0, bottom: 36),
+        child: FloatingActionButton.extended(
+          onPressed: saveEntry,
+          icon: Icon(Icons.save_alt),
+          label: Text('Guardar'),
+        ),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(64.0),
         children: <Widget>[
@@ -43,18 +68,18 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-
                 Padding(
                   padding: const EdgeInsets.only(bottom: 24.0),
                   child: DropdownButtonFormField(
-                    value: 1,
+                    onSaved: (value) => _client = value,
+                    value: clients[0],
                     autovalidate: _autovalidate,
                     validator: (value) => value != null ? null : 'Campo requerido.',
                     items: clients
-                      .map<DropdownMenuItem<int>>((Client value) {
-                        return DropdownMenuItem<int>(
-                          value: value.id,
-                          child: Text('${value.id}. ${value.name} ${value.lastName}'),
+                      .map<DropdownMenuItem<Client>>((Client client) {
+                        return DropdownMenuItem<Client>(
+                          value: client,
+                          child: Text('${client.id}. ${client.name} ${client.lastName}'),
                         );
                       })
                       .toList(),
@@ -65,11 +90,37 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                   ),
                 ),
 
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: DropdownButtonFormField(
+                    onSaved: (value) => _type = value,
+                    autovalidate: _autovalidate,
+                    value: 'credito',
+                    items: <dynamic>[
+                        {"value": 'credito', "text": 'Crédito'},
+                        {"value": 'debito', "text": 'Débito'}
+                      ]
+                      .map<DropdownMenuItem<dynamic>>((dynamic item) {
+                        return DropdownMenuItem<dynamic>(
+                          value: item['value'],
+                          child: Text(item['text']),
+                        );
+                      })
+                      .toList(),
+                    onChanged: (value){},
+                    decoration: InputDecoration(
+                        labelText: 'Tipo',
+                      // hintText: 'Ingresar...'
+                    ),
+                  ),
+                ),
+
                     
                 Padding(
                   padding: const EdgeInsets.only(bottom: 18.0),
                   child: TextFormField(
-                    initialValue: '0',
+                    onSaved: (value) => _total = value,
+                    initialValue: '100',
                     inputFormatters: [WhitelistingTextInputFormatter(RegExp("[0-9]"))],
                     autovalidate: _autovalidate,
                     cursorColor: Colors.blue,
@@ -83,36 +134,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                     ),
                   ),
                 ),
-
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 24.0),
-                  child: DropdownButtonFormField(
-                    autovalidate: _autovalidate,
-                    value: 'Crédito',
-                    items: <String>['Crédito', 'Débito']
-                      .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      })
-                      .toList(),
-                    onChanged: (value){},
-                    decoration: InputDecoration(
-                        labelText: 'Tipo',
-                      // hintText: 'Ingresar...'
-                    ),
-                  ),
-                ),
-
-                Row(
-                  children: <Widget>[
-                    RaisedButton(
-                      child: Text('Agregar'),
-                      onPressed: saveEntry,
-                    ),
-                  ],
-                )
               ]
             ),
           ),
