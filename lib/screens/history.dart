@@ -77,7 +77,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   DataColumn(label: Text('Apellido')),
                   DataColumn(label: Text('Tipo')),
                   DataColumn(label: Text('Fecha')),
-                  DataColumn(label: Text('Balance'), numeric: true),
+                  DataColumn(label: Text('Total'), numeric: true),
                 ], 
                 rows: [
                   for (var row in transactions) 

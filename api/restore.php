@@ -46,8 +46,10 @@
     $balances_file = fopen($balances_path, "w") or die("Unable to open file!");
 
     foreach ($balances as $row) {
-        $line = $row['id'] . "," . $row['name'] . "," . $row['last_name'] . "," . $row['updated'] . "," . $row['total'] . "\n";
-        fwrite($balances_file, $line);
+        if(!empty($row['id'])){
+            $line = $row['id'] . "," . $row['name'] . "," . $row['last_name'] . "," . $row['updated'] . "," . $row['total'] . "\n";
+            fwrite($balances_file, $line);
+        }
     }
     fclose($balances_file);
 ?>

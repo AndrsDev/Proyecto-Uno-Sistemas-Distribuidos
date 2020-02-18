@@ -1,4 +1,4 @@
-1,1,Andres,Sanabria,credito,2020-02-18T08:42:24.727014,100
-2,1,Andres,Sanabria,credito,2020-02-18T08:42:24.727014,100
-3,2,Gabriela,Toledo,credito,2020-02-18T08:55:53.051548,20
-4,2,Gabriela,Toledo,debito,2020-02-18T08:56:26.494331,10
+1,1,Andres,Sanabria,debito,2020-02-18T11:00:07.111263,100
+2,3,Esteban,Castillo,credito,2020-02-18T11:00:18.704734,100
+3,1,Andres,Sanabria,credito,2020-02-18T11:00:34.738378,150
+4,2,Gabriela,Toledo,credito,2020-02-18T11:01:11.315141,1000

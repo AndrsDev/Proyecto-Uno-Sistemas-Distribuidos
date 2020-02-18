@@ -42,7 +42,12 @@
     }
 
     if(!$found){
-        $balances_lines[] = $id . "," . $name . "," . $last_name . "," . $date . "," . $total . "\n";
+        if($type == 'credito'){
+            $balance = floatval($total);
+        } else if($type == 'debito'){
+            $balance = floatval($total) * -1;
+        }
+        $balances_lines[] = $id . "," . $name . "," . $last_name . "," . $date . "," . $balance . "\n";
     }
     fclose($balances_file);
 
